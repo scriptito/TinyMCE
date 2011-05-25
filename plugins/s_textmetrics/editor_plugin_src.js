@@ -14,7 +14,7 @@
 
     init : function(ed, url) {
     
-      var t = this, last = 0;
+      var t = this;
       
       t.editor = ed;
       
@@ -69,15 +69,11 @@
       });
 
       ed.onKeyUp.add(function(ed, e) {
-        if (e.keyCode == last) {
-          return;
-        }
         if (sTextUtils.isWhitespaceKeyCode(e.keyCode) || sTextUtils.isPunctuationKeyCode(e.keyCode)
-          || 8 == last // Backspace
-          || 46 == last) { // Delete
+          || 8 == e.keyCode // Backspace
+          || 46 == e.keyCode) { // Delete
           t._count(ed);
         }
-        last = e.keyCode;
       });
 
     },
