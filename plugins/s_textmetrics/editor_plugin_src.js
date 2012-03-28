@@ -11,6 +11,7 @@
     wcid : null,
     scid : null,
     pcid : null,
+    lcid : null,
 
     init : function(ed, url) {
     
@@ -23,6 +24,7 @@
       t.wcid = ed.id + '-word-count';
       t.scid = ed.id + '-sentence-count';
       t.pcid = ed.id + '-paragraph-count';
+      t.lcid = ed.id + '-line-count';
   
       t.state = ed.getParam('s_textmetrics_on');
       
@@ -43,7 +45,8 @@
               '<span>' + ed.getLang('s_textmetrics.characters', 'Characters: ') + '<span id="' + t.ccid + '">0</span></span>' +
               '<span>' + ed.getLang('s_textmetrics.words', 'Words: ') + '<span id="' + t.wcid + '">0</span></span>' +
               '<span>' + ed.getLang('s_textmetrics.sentences', 'Sentences: ') + '<span id="' + t.scid + '">0</span></span>' +
-              '<span>' + ed.getLang('s_textmetrics.paragraphs', 'Paragraphs: ') + '<span id="' + t.pcid + '">0</span></span>');
+              '<span>' + ed.getLang('s_textmetrics.paragraphs', 'Paragraphs: ') + '<span id="' + t.pcid + '">0</span></span>' +
+              '<span>' + ed.getLang('s_textmetrics.lines', 'Lines: ') + '<span id="' + t.lcid + '">0</span></span>');
           }
           ed.controlManager.setActive('toggle_metrics', t.state);
         } 
@@ -95,6 +98,7 @@
           d.setHTML(t.wcid, m.wordCount);
           d.setHTML(t.scid, m.sentenceCount);
           d.setHTML(t.pcid, m.paragraphCount);
+          d.setHTML(t.lcid, m.lineCount);
         }
         t.block = 0;
       }, 1);
@@ -116,7 +120,7 @@
         author : 'Scriptito, LLC',
         authorurl : 'http://www.scriptito.com',
         infourl : 'http://www.scriptito.com',
-        version : "1.2"
+        version : "1.2.1"
       };
     }
     
