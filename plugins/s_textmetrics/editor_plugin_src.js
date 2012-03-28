@@ -42,11 +42,14 @@
               row.parentNode, 
               'div', 
               { 'id':t.tid, 'class':'metrics', 'style':'display:' + (t.state ? "block;" : "none;") }, 
-              '<span>' + ed.getLang('s_textmetrics.characters', 'Characters: ') + '<span id="' + t.ccid + '">0</span></span>' +
-              '<span>' + ed.getLang('s_textmetrics.words', 'Words: ') + '<span id="' + t.wcid + '">0</span></span>' +
-              '<span>' + ed.getLang('s_textmetrics.sentences', 'Sentences: ') + '<span id="' + t.scid + '">0</span></span>' +
-              '<span>' + ed.getLang('s_textmetrics.paragraphs', 'Paragraphs: ') + '<span id="' + t.pcid + '">0</span></span>' +
-              '<span>' + ed.getLang('s_textmetrics.lines', 'Lines: ') + '<span id="' + t.lcid + '">0</span></span>');
+              ed.getParam('s_textmetrics_template', function(ed, t) {
+                return '<span>' + ed.getLang('s_textmetrics.characters', 'Characters: ') + '<span id="' + t.ccid + '">0</span></span>' +
+                  '<span>' + ed.getLang('s_textmetrics.words', 'Words: ') + '<span id="' + t.wcid + '">0</span></span>' +
+                  '<span>' + ed.getLang('s_textmetrics.sentences', 'Sentences: ') + '<span id="' + t.scid + '">0</span></span>' +
+                  '<span>' + ed.getLang('s_textmetrics.paragraphs', 'Paragraphs: ') + '<span id="' + t.pcid + '">0</span></span>' +
+                  '<span>' + ed.getLang('s_textmetrics.lines', 'Lines: ') + '<span id="' + t.lcid + '">0</span></span>';
+              })(ed, t)
+            );
           }
           ed.controlManager.setActive('toggle_metrics', t.state);
         } 
@@ -94,11 +97,14 @@
         if (tx) {
           var d = tinymce.DOM;
           var m = sTextUtils.getMetricsForHtml(tx);
-          d.setHTML(t.ccid, m.characterCount);
-          d.setHTML(t.wcid, m.wordCount);
-          d.setHTML(t.scid, m.sentenceCount);
-          d.setHTML(t.pcid, m.paragraphCount);
-          d.setHTML(t.lcid, m.lineCount);
+          var updater = ed.getParam('s_textmetrics_updater', function(t,d,m) {
+            d.setHTML(t.ccid, m.characterCount);
+            d.setHTML(t.wcid, m.wordCount);
+            d.setHTML(t.scid, m.sentenceCount);
+            d.setHTML(t.pcid, m.paragraphCount);
+            d.setHTML(t.lcid, m.lineCount);
+          });
+          updater(t,d,m);
         }
         t.block = 0;
       }, 1);
@@ -120,7 +126,7 @@
         author : 'Scriptito, LLC',
         authorurl : 'http://www.scriptito.com',
         infourl : 'http://www.scriptito.com',
-        version : "1.2.1"
+        version : "1.2.2"
       };
     }
     
