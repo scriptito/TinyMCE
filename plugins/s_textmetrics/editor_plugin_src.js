@@ -96,7 +96,7 @@
         var tx = ed.getContent({format : 'raw'});
         if (tx) {
           var d = tinymce.DOM;
-          var m = sTextUtils.getMetricsForHtml(tx);
+          var m = sTextUtils.getMetricsForHtml(tx, ed.getParam('s_textmetrics_charsperline', 80));
           var updater = ed.getParam('s_textmetrics_updater', function(t,d,m) {
             d.setHTML(t.ccid, m.characterCount);
             d.setHTML(t.wcid, m.wordCount);

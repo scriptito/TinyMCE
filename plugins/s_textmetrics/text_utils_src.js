@@ -32,10 +32,7 @@ sTextUtils = {
   CHAR_CODE_SEMI:";".charCodeAt(0),
   CHAR_CODE_SPACE:" ".charCodeAt(0),
 
-  CHARS_PER_LINE: 80,
-    
-  getMetricsForHtml:function(pText) {
-
+  getMetricsForHtml:function(pText, pCharsPerLine) {
     var lState = this.STATE_WHITESPACE;
     var lPrevState = this.STATE_WHITESPACE;
     var lCharCount = 0;
@@ -50,6 +47,8 @@ sTextUtils = {
     var lBufferLen = 0;
     var lBuffer = "";
 
+    pCharsPerLine = pCharsPerLine || 80;
+      
     for (var i = 0; i < pText.length; i++)
     {
       var lCharCode = pText.charCodeAt(i);
@@ -65,7 +64,7 @@ sTextUtils = {
           {
             lCharCount++;
             lLineChars++;
-            if (lLineChars >= this.CHARS_PER_LINE) {
+            if (lLineChars >= pCharsPerLine) {
               lLineCount++;
               lLineChars = 0;
             }  
@@ -130,7 +129,7 @@ sTextUtils = {
           else {
             lCharCount++;
             lLineChars++;
-            if (lLineChars >= this.CHARS_PER_LINE) {
+            if (lLineChars >= pCharsPerLine) {
               lLineCount++;
               lLineChars = 0;
             }  
