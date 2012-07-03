@@ -32,13 +32,14 @@ sTextUtils = {
   CHAR_CODE_SEMI:";".charCodeAt(0),
   CHAR_CODE_SPACE:" ".charCodeAt(0),
 
-  getMetricsForHtml:function(pText) {
-
+  getMetricsForHtml:function(pText, pCharsPerLine) {
     var lState = this.STATE_WHITESPACE;
     var lPrevState = this.STATE_WHITESPACE;
     var lCharCount = 0;
     var lWhitespaceCount = 0;
     var lWordCount = 0;
+    var lLineCount = 0;
+    var lLineChars = 0;
     var lSentenceCount = 0;
     var lParagraphCount = 0;
     var lSentenceChars = 0;
@@ -46,6 +47,8 @@ sTextUtils = {
     var lBufferLen = 0;
     var lBuffer = "";
 
+    pCharsPerLine = pCharsPerLine || 80;
+      
     for (var i = 0; i < pText.length; i++)
     {
       var lCharCode = pText.charCodeAt(i);
@@ -60,6 +63,11 @@ sTextUtils = {
           else 
           {
             lCharCount++;
+            lLineChars++;
+            if (lLineChars >= pCharsPerLine) {
+              lLineCount++;
+              lLineChars = 0;
+            }  
             if (lCharCode == this.CHAR_CODE_AMP) {
               lBufferStart = i;
               lPrevState = lState;
@@ -86,6 +94,9 @@ sTextUtils = {
             var lBuffer = pText.substring(lBufferStart + 1, i).toLowerCase();
             if (lBuffer == "p" || lBuffer == "li") {
               lParagraphCount++;
+              lLineCount++;
+              lLineChars = 0;
+                
               lSentenceChars = 0;
               lState = this.STATE_WHITESPACE;
             }
@@ -117,6 +128,11 @@ sTextUtils = {
           }
           else {
             lCharCount++;
+            lLineChars++;
+            if (lLineChars >= pCharsPerLine) {
+              lLineCount++;
+              lLineChars = 0;
+            }  
             lSentenceChars++;
             if (lCharCode == this.CHAR_CODE_AMP) {
               lBufferStart = i;
@@ -143,7 +159,8 @@ sTextUtils = {
       "paragraphCount":lParagraphCount,
       "sentenceCount":lSentenceCount,
       "whitespaceCount":lWhitespaceCount,
-      "wordCount":lWordCount 
+      "wordCount":lWordCount,
+      "lineCount":lLineCount
     };
   },
   
